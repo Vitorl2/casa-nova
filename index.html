@@ -66,6 +66,30 @@
     </div>
   </footer>
 
+  <!-- ===================== JANELA (MODAL) DE CONTRIBUIÇÃO ===================== -->
+  <div id="modalPix" class="modal-overlay">
+    <div class="modal-box">
+      <button class="modal-fechar" onclick="fecharModalPix()" aria-label="Fechar">&times;</button>
+      <h3 id="modalTitulo">Contribuir</h3>
+      <p class="modal-item">Presente: <strong id="modalItem"></strong></p>
+
+      <p class="modal-instrucao">Escaneie o QR Code no app do seu banco:</p>
+      <div id="pixQr" class="pix-qr"></div>
+
+      <p class="modal-instrucao">Ou use o Pix Copia e Cola:</p>
+      <textarea id="pixCopiaCola" class="pix-copiacola" readonly rows="3"></textarea>
+      <button id="btnCopiarPixCodigo" class="btn-modal btn-modal-pix">📋 Copiar código Pix</button>
+
+      <button id="btnModalCartao" class="btn-modal btn-modal-cartao">💳 Pagar com cartão</button>
+      <button id="btnModalWhats" class="btn-modal btn-modal-whats">💬 Avisar no WhatsApp</button>
+
+      <p class="modal-aviso">Depois de pagar, mande o comprovante no WhatsApp. Obrigado! 💛</p>
+    </div>
+  </div>
+
+  <!-- Biblioteca para gerar o QR Code -->
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
+
   <!-- Firebase (banco de dados na nuvem) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>

@@ -43,6 +43,103 @@ function abrirWhatsApp(valor, nomePresente) {
   window.open(linkWhatsApp(valor, nomePresente), "_blank");
 }
 
+// ------------------- GERADOR DO CÓDIGO PIX (Copia e Cola / QR) -------------------
+// Monta o "Pix Copia e Cola" no padrão oficial do Banco Central (BR Code/EMV).
+// Assim o QR já vem com a sua chave e o valor preenchidos.
+function emv(id, valor) {
+  const tam = String(valor.length).padStart(2, "0");
+  return id + tam + valor;
+}
+
+// Remove acentos/símbolos e limita tamanho (exigência do padrão Pix)
+function limpaTexto(s, max) {
+  return (s || "")
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^A-Za-z0-9 ]/g, "")
+    .toUpperCase().trim().slice(0, max);
+}
+
+// Cálculo do dígito verificador (CRC16-CCITT) exigido no final do código
+function crc16(str) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < str.length; i++) {
+    crc ^= str.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) : (crc << 1);
+      crc &= 0xFFFF;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, "0");
+}
+
+// Gera o texto completo do Pix Copia e Cola
+function gerarPixCopiaECola(valor) {
+  const conta = emv("00", "br.gov.bcb.pix") + emv("01", CONFIG.chavePix);
+  let payload =
+    emv("00", "01") +
+    emv("26", conta) +
+    emv("52", "0000") +
+    emv("53", "986") +
+    (valor ? emv("54", Number(valor).toFixed(2)) : "") +
+    emv("58", "BR") +
+    emv("59", limpaTexto(CONFIG.nome, 25) || "RECEBEDOR") +
+    emv("60", limpaTexto(CONFIG.cidade, 15) || "CIDADE") +
+    emv("62", emv("05", "***")) +
+    "6304";
+  return payload + crc16(payload);
+}
+
+// ------------------- JANELA (MODAL) DE CONTRIBUIÇÃO -------------------
+function abrirModalPix(valor, nomePresente) {
+  const modal = document.getElementById("modalPix");
+  const codigo = gerarPixCopiaECola(valor);
+
+  // Título e valor
+  document.getElementById("modalTitulo").textContent =
+    `Contribuir com ${formatarReal(Number(valor))}`;
+  document.getElementById("modalItem").textContent = nomePresente;
+
+  // Gera o QR Code a partir do código Pix
+  const qrDiv = document.getElementById("pixQr");
+  qrDiv.innerHTML = "";
+  new QRCode(qrDiv, { text: codigo, width: 210, height: 210, correctLevel: QRCode.CorrectLevel.M });
+
+  // Texto do copia e cola
+  document.getElementById("pixCopiaCola").value = codigo;
+
+  // Botão de copiar o código
+  const btnCopiar = document.getElementById("btnCopiarPixCodigo");
+  btnCopiar.textContent = "📋 Copiar código Pix";
+  btnCopiar.onclick = async () => {
+    try { await navigator.clipboard.writeText(codigo); }
+    catch (e) {
+      const ta = document.getElementById("pixCopiaCola");
+      ta.select(); document.execCommand("copy");
+    }
+    btnCopiar.textContent = "✓ Copiado!";
+    setTimeout(() => { btnCopiar.textContent = "📋 Copiar código Pix"; }, 2000);
+  };
+
+  // Botão de avisar no WhatsApp
+  document.getElementById("btnModalWhats").onclick =
+    () => abrirWhatsApp(valor, nomePresente);
+
+  // Botão de cartão (só aparece se houver link configurado)
+  const btnCartao = document.getElementById("btnModalCartao");
+  if (CONFIG.linkCartao) {
+    btnCartao.style.display = "block";
+    btnCartao.onclick = () => window.open(CONFIG.linkCartao, "_blank");
+  } else {
+    btnCartao.style.display = "none";
+  }
+
+  modal.style.display = "flex";
+}
+
+function fecharModalPix() {
+  document.getElementById("modalPix").style.display = "none";
+}
+
 // ------------------- RENDERIZAÇÃO DOS FILTROS -------------------
 function renderizarFiltros() {
   const nav = document.getElementById("filtros");
@@ -153,7 +250,7 @@ function renderizarPresentes() {
       COTAS.forEach((valor) => {
         const btn = document.createElement("button");
         btn.textContent = `R$ ${valor}`;
-        btn.addEventListener("click", () => abrirWhatsApp(valor, presente.nome));
+        btn.addEventListener("click", () => abrirModalPix(valor, presente.nome));
         divCotas.appendChild(btn);
       });
 
@@ -171,7 +268,7 @@ function renderizarPresentes() {
           alert("Por favor, digite um valor válido.");
           return;
         }
-        abrirWhatsApp(valor, presente.nome);
+        abrirModalPix(valor, presente.nome);
       });
       divCotas.appendChild(btnOutro);
     }
@@ -222,6 +319,8 @@ async function carregarDaNuvem() {
           nome: d.nome || CONFIG.nome,
           whatsapp: d.whatsapp || CONFIG.whatsapp,
           chavePix: d.chavePix || CONFIG.chavePix,
+          cidade: d.cidade || CONFIG.cidade,
+          linkCartao: d.linkCartao !== undefined ? d.linkCartao : CONFIG.linkCartao,
         };
       }
       // Usa a lista da nuvem mesmo que esteja vazia (vazio = você apagou tudo).

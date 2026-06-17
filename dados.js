@@ -12,9 +12,11 @@
 
 // ------------------- SUAS INFORMAÇÕES -------------------
 let CONFIG = {
-  nome: "Vitor",                              // seu nome (mensagem do WhatsApp)
+  nome: "Vitor",                              // seu nome (mensagem do WhatsApp e no Pix)
   whatsapp: "5585985896163",                  // DDI(55) + DDD + número, só dígitos
   chavePix: "vitorsiqueira834@gmail.com",     // sua chave Pix
+  cidade: "FORTALEZA",                        // sua cidade (vai no código do Pix)
+  linkCartao: "",                             // link de pagamento por cartão (gateway). Vazio = não mostra botão
 };
 
 // ------------------- LISTA DE PRESENTES -------------------

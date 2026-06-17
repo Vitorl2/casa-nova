@@ -80,6 +80,10 @@
       <input id="cfgWhats" type="text" inputmode="numeric" />
       <label>Chave Pix</label>
       <input id="cfgPix" type="text" />
+      <label>Cidade (vai no código do Pix)</label>
+      <input id="cfgCidade" type="text" placeholder="Ex.: Fortaleza" />
+      <label>Link de pagamento por cartão (opcional)</label>
+      <input id="cfgCartao" type="text" placeholder="cole aqui o link do Mercado Pago / InfinitePay" />
     </div>
 
     <!-- ADICIONAR / EDITAR ITEM -->
@@ -178,23 +182,28 @@
     // ---------- CARREGAR DADOS (nuvem ou dados.js) ----------
     async function carregarDados(){
       let nome = CONFIG.nome, whats = CONFIG.whatsapp, pix = CONFIG.chavePix;
+      let cidade = CONFIG.cidade, cartao = CONFIG.linkCartao;
       lista = PRESENTES.map(p => ({...p, link: p.link || ""}));
       try {
         const doc = await DOC_DADOS.get();
         if (doc.exists) {
           const d = doc.data();
-          nome  = d.nome ?? nome;
-          whats = d.whatsapp ?? whats;
-          pix   = d.chavePix ?? pix;
+          nome   = d.nome ?? nome;
+          whats  = d.whatsapp ?? whats;
+          pix    = d.chavePix ?? pix;
+          cidade = d.cidade ?? cidade;
+          cartao = d.linkCartao ?? cartao;
           // Usa a lista da nuvem mesmo vazia (vazio = você apagou tudo).
           if (Array.isArray(d.presentes)) {
             lista = d.presentes.map(p => ({...p, link: p.link || ""}));
           }
         }
       } catch(e){ console.warn("Falha ao ler da nuvem, usando dados locais.", e); }
-      document.getElementById("cfgNome").value  = nome;
-      document.getElementById("cfgWhats").value = whats;
-      document.getElementById("cfgPix").value   = pix;
+      document.getElementById("cfgNome").value   = nome;
+      document.getElementById("cfgWhats").value  = whats;
+      document.getElementById("cfgPix").value    = pix;
+      document.getElementById("cfgCidade").value = cidade;
+      document.getElementById("cfgCartao").value = cartao;
       renderLista();
     }
 
@@ -288,6 +297,8 @@
         nome: document.getElementById("cfgNome").value.trim(),
         whatsapp: document.getElementById("cfgWhats").value.replace(/\D/g,""),
         chavePix: document.getElementById("cfgPix").value.trim(),
+        cidade: document.getElementById("cfgCidade").value.trim(),
+        linkCartao: document.getElementById("cfgCartao").value.trim(),
         presentes: lista,
       };
       btn.disabled = true;

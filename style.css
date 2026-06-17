@@ -386,3 +386,112 @@ body {
   color: var(--cor-texto-suave);
   font-size: 14px;
 }
+
+/* ---------- Janela (modal) de contribuição ---------- */
+.modal-overlay {
+  display: none;               /* escondido por padrão; vira flex ao abrir */
+  position: fixed;
+  inset: 0;
+  background: rgba(45, 38, 30, 0.55);
+  z-index: 1000;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 14px;
+  overflow-y: auto;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px 22px 20px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  margin: auto;
+}
+
+.modal-fechar {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--cor-texto-suave);
+  cursor: pointer;
+}
+
+.modal-box h3 {
+  color: var(--cor-primaria-escura);
+  font-size: 20px;
+  margin: 4px 0 2px;
+}
+
+.modal-item {
+  color: var(--cor-texto-suave);
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.modal-instrucao {
+  font-size: 13px;
+  color: var(--cor-texto-suave);
+  margin: 14px 0 8px;
+}
+
+.pix-qr {
+  display: flex;
+  justify-content: center;
+}
+
+.pix-qr img,
+.pix-qr canvas {
+  border: 6px solid #fff;
+  border-radius: 10px;
+}
+
+.pix-copiacola {
+  width: 100%;
+  font-family: monospace;
+  font-size: 11px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  padding: 8px;
+  resize: none;
+  word-break: break-all;
+}
+
+.btn-modal {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn-modal-pix {
+  background: var(--cor-primaria);
+  color: #fff;
+}
+
+.btn-modal-cartao {
+  background: #4a6fa5;
+  color: #fff;
+}
+
+.btn-modal-whats {
+  background: #25d366;
+  color: #fff;
+}
+
+.modal-aviso {
+  font-size: 13px;
+  color: var(--cor-texto-suave);
+  margin-top: 14px;
+}
