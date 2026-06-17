@@ -224,7 +224,8 @@ async function carregarDaNuvem() {
           chavePix: d.chavePix || CONFIG.chavePix,
         };
       }
-      if (Array.isArray(d.presentes) && d.presentes.length > 0) {
+      // Usa a lista da nuvem mesmo que esteja vazia (vazio = você apagou tudo).
+      if (Array.isArray(d.presentes)) {
         PRESENTES = d.presentes;
       }
     }

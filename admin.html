@@ -109,6 +109,10 @@
     <!-- LISTA ATUAL -->
     <h2>Itens atuais (<span id="contador">0</span>)</h2>
     <div id="listaItens"></div>
+    <button class="btn-mini" id="btnExemplos"
+      style="background:#eef7f3;color:var(--verde-escuro);margin-top:4px">
+      ↩️ Restaurar os 10 itens de exemplo
+    </button>
 
     <!-- SALVAR -->
     <h2>Salvar</h2>
@@ -182,7 +186,8 @@
           nome  = d.nome ?? nome;
           whats = d.whatsapp ?? whats;
           pix   = d.chavePix ?? pix;
-          if (Array.isArray(d.presentes) && d.presentes.length > 0) {
+          // Usa a lista da nuvem mesmo vazia (vazio = você apagou tudo).
+          if (Array.isArray(d.presentes)) {
             lista = d.presentes.map(p => ({...p, link: p.link || ""}));
           }
         }
@@ -266,6 +271,14 @@
         else renderLista();
       }
     };
+
+    // Restaura os 10 itens de exemplo (só na tela; só salva ao clicar em Salvar)
+    document.getElementById("btnExemplos").addEventListener("click", () => {
+      if(confirm("Isto substitui a lista atual pelos 10 itens de exemplo. As mudanças só valem depois que você clicar em 'Salvar tudo na nuvem'. Continuar?")){
+        lista = PRESENTES.map(p => ({...p, link: p.link || ""}));
+        limparForm();
+      }
+    });
 
     // ---------- SALVAR NA NUVEM ----------
     document.getElementById("btnSalvarNuvem").addEventListener("click", async () => {
