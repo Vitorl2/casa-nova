@@ -16,10 +16,10 @@ const CONFIG = {
 
   // (2) TROQUE: número do WhatsApp -> DDI(55) + DDD + número, só dígitos
   //     Exemplo: 55 11 99999-9999  ->  "5511999999999"
-  whatsapp: "5511999999999",
+  whatsapp: "5585985896163",
 
   // (3) TROQUE: sua chave Pix (e-mail, telefone, CPF ou chave aleatória)
-  chavePix: "moodlrinc@gmail.com",
+  chavePix: "vitorsiqueira834@gmail.com",
 };
 
 // ------------------- LISTA DE PRESENTES (TROQUE AQUI) -------------------
@@ -29,16 +29,16 @@ const CONFIG = {
 //   valorTotal     -> valor estimado total do item (R$)
 //   valorArrecadado-> quanto já foi arrecadado até agora (R$)
 const PRESENTES = [
-  { nome: "Air Fryer",        categoria: "Cozinha",    valorTotal: 300, valorArrecadado: 80 },
-  { nome: "Micro-ondas",      categoria: "Cozinha",    valorTotal: 500, valorArrecadado: 120 },
+  { nome: "Air Fryer",        categoria: "Cozinha",    valorTotal: 300, valorArrecadado: 0 },
+  { nome: "Micro-ondas",      categoria: "Cozinha",    valorTotal: 500, valorArrecadado: 0 },
   { nome: "Liquidificador",   categoria: "Cozinha",    valorTotal: 150, valorArrecadado: 0 },
-  { nome: "Jogo de Panelas",  categoria: "Cozinha",    valorTotal: 250, valorArrecadado: 50 },
+  { nome: "Jogo de Panelas",  categoria: "Cozinha",    valorTotal: 250, valorArrecadado: 0 },
   { nome: "Sanduicheira",     categoria: "Cozinha",    valorTotal: 120, valorArrecadado: 0 },
-  { nome: "Ferro de Passar",  categoria: "Lavanderia", valorTotal: 120, valorArrecadado: 30 },
+  { nome: "Ferro de Passar",  categoria: "Lavanderia", valorTotal: 120, valorArrecadado: 0 },
   { nome: "Varal de Chão",    categoria: "Lavanderia", valorTotal: 90,  valorArrecadado: 0 },
-  { nome: "Jogo de Cama",     categoria: "Quarto",     valorTotal: 150, valorArrecadado: 50 },
+  { nome: "Jogo de Cama",     categoria: "Quarto",     valorTotal: 150, valorArrecadado: 0 },
   { nome: "Travesseiros",     categoria: "Quarto",     valorTotal: 100, valorArrecadado: 0 },
-  { nome: "Kit Toalhas",      categoria: "Banheiro",   valorTotal: 120, valorArrecadado: 20 },
+  { nome: "Kit Toalhas",      categoria: "Banheiro",   valorTotal: 120, valorArrecadado: 0 },
 ];
 
 // Categorias usadas nos filtros (a ordem aqui é a ordem dos botões)
