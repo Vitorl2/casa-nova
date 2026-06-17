@@ -336,7 +336,6 @@ async function carregarDaNuvem() {
 // ------------------- INICIALIZAÇÃO -------------------
 document.addEventListener("DOMContentLoaded", async () => {
   await carregarDaNuvem();
-  renderizarResumo();
   renderizarFiltros();
   renderizarPresentes();
   configurarPix();
