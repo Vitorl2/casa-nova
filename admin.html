@@ -34,103 +34,101 @@
     .btn-mini{padding:6px 10px;font-size:13px;}
     .btn-editar{background:#fdf0db;color:#b9822f;}
     .btn-remover{background:#fde3e0;color:#c0463b;}
-    .btn-gerar{background:var(--verde-escuro);color:#fff;width:100%;}
-    .btn-copiar{background:var(--verde);color:#fff;width:100%;margin-top:10px;}
-    .btn-copiar.ok{background:#e8a04a;}
-    textarea{width:100%;min-height:200px;font-family:monospace;font-size:12px;
-      padding:12px;border:1px solid var(--borda);border-radius:8px;margin-top:10px;}
-    .passos{background:#eef7f3;border:1px solid #cfe9df;border-radius:10px;
-      padding:14px 18px;font-size:14px;}
-    .passos a{color:var(--verde-escuro);font-weight:600;}
-    .passos li{margin:4px 0;}
-    .aviso{background:#fff7e6;border:1px solid #f0d9a8;border-radius:10px;
-      padding:12px 16px;font-size:13px;color:#8a6d2f;margin-bottom:16px;}
+    .btn-salvar{background:var(--verde);color:#fff;width:100%;font-size:17px;padding:15px;}
+    .btn-salvar:hover{background:var(--verde-escuro);}
+    .btn-salvar.ok{background:#e8a04a;}
     .editando{outline:2px solid var(--verde);outline-offset:2px;}
+    .topo{display:flex;justify-content:space-between;align-items:center;}
+    .btn-sair{background:#f0ede8;color:var(--suave);padding:8px 14px;font-size:13px;}
+    .status{font-size:13px;color:var(--suave);margin-top:8px;text-align:center;}
+    /* Tela de login */
+    #login{max-width:380px;margin:8vh auto 0;}
+    #login .card{padding:24px;}
+    #painel{display:none;}
   </style>
 </head>
 <body>
 
-  <h1>🛠️ Painel da Casa Nova</h1>
-  <p class="intro">Adicione, edite ou remova itens sem mexer em código. No final, copie e cole o resultado pra publicar.</p>
-
-  <div class="aviso">
-    ⚠️ Esta página é só pra você. As mudanças que você faz aqui ficam só na tela —
-    para aparecerem no site de verdade, siga os passos do final (copiar e colar).
-  </div>
-
-  <!-- SUAS INFORMAÇÕES -->
-  <div class="card">
-    <h2 style="margin-top:0">Suas informações</h2>
-    <label>Seu nome (aparece na mensagem do WhatsApp)</label>
-    <input id="cfgNome" type="text" />
-    <label>WhatsApp (só números: 55 + DDD + número)</label>
-    <input id="cfgWhats" type="text" inputmode="numeric" />
-    <label>Chave Pix</label>
-    <input id="cfgPix" type="text" />
-  </div>
-
-  <!-- ADICIONAR / EDITAR ITEM -->
-  <div class="card" id="formCard">
-    <h2 style="margin-top:0" id="formTitulo">Adicionar item</h2>
-    <label>Nome do item</label>
-    <input id="itNome" type="text" placeholder="Ex.: Cafeteira" />
-    <div class="linha">
-      <div>
-        <label>Categoria</label>
-        <select id="itCategoria"></select>
-      </div>
-      <div>
-        <label>Valor total (R$)</label>
-        <input id="itTotal" type="number" min="0" placeholder="Ex.: 200" />
-      </div>
-      <div>
-        <label>Já arrecadado (R$)</label>
-        <input id="itArrecadado" type="number" min="0" value="0" />
-      </div>
-    </div>
-    <label>Link da loja (opcional)</label>
-    <input id="itLink" type="text" placeholder="https://..." />
-    <button class="btn-add" id="btnSalvarItem">+ Adicionar item</button>
-  </div>
-
-  <!-- LISTA ATUAL -->
-  <h2>Itens atuais (<span id="contador">0</span>)</h2>
-  <div id="listaItens"></div>
-
-  <!-- GERAR CÓDIGO -->
-  <h2>Publicar mudanças</h2>
-  <button class="btn-gerar" id="btnGerar">Gerar código para publicar</button>
-  <div id="areaGerada" style="display:none">
-    <button class="btn-copiar" id="btnCopiar">📋 Copiar tudo</button>
-    <textarea id="saida" readonly></textarea>
-    <div class="passos">
-      <strong>Como publicar (1 minuto):</strong>
-      <ol>
-        <li>Clique em <strong>📋 Copiar tudo</strong> acima.</li>
-        <li>Abra:
-          <a href="https://github.com/Vitorl2/casa-nova/edit/main/dados.js" target="_blank">
-            editar dados.js no GitHub</a>.</li>
-        <li>Apague tudo que estiver lá (Ctrl+A e Delete) e <strong>cole</strong> (Ctrl+V).</li>
-        <li>Clique no botão verde <strong>Commit changes</strong>.</li>
-        <li>Pronto! Em ~1 minuto o site atualiza. 🎉</li>
-      </ol>
+  <!-- ============ TELA DE LOGIN ============ -->
+  <div id="login">
+    <h1 style="text-align:center">🔒 Painel da Casa Nova</h1>
+    <p class="intro" style="text-align:center">Entre com seu e-mail e senha para gerenciar os presentes.</p>
+    <div class="card">
+      <label>E-mail</label>
+      <input id="loginEmail" type="email" autocomplete="username" placeholder="vitorsiqueira834@gmail.com" />
+      <label>Senha</label>
+      <input id="loginSenha" type="password" autocomplete="current-password" placeholder="sua senha" />
+      <button class="btn-add" id="btnEntrar">Entrar</button>
+      <p class="status" id="loginErro" style="color:#c0463b"></p>
     </div>
   </div>
 
-  <!-- Carrega os dados atuais -->
+  <!-- ============ PAINEL (aparece após login) ============ -->
+  <div id="painel">
+    <div class="topo">
+      <h1>🛠️ Painel da Casa Nova</h1>
+      <button class="btn-sair" id="btnSair">Sair</button>
+    </div>
+    <p class="intro">Adicione, edite ou remova itens. Ao terminar, clique em <strong>Salvar tudo na nuvem</strong> — o site atualiza na hora, sem GitHub.</p>
+
+    <!-- SUAS INFORMAÇÕES -->
+    <div class="card">
+      <h2 style="margin-top:0">Suas informações</h2>
+      <label>Seu nome (aparece na mensagem do WhatsApp)</label>
+      <input id="cfgNome" type="text" />
+      <label>WhatsApp (só números: 55 + DDD + número)</label>
+      <input id="cfgWhats" type="text" inputmode="numeric" />
+      <label>Chave Pix</label>
+      <input id="cfgPix" type="text" />
+    </div>
+
+    <!-- ADICIONAR / EDITAR ITEM -->
+    <div class="card" id="formCard">
+      <h2 style="margin-top:0" id="formTitulo">Adicionar item</h2>
+      <label>Nome do item</label>
+      <input id="itNome" type="text" placeholder="Ex.: Cafeteira" />
+      <div class="linha">
+        <div>
+          <label>Categoria</label>
+          <select id="itCategoria"></select>
+        </div>
+        <div>
+          <label>Valor total (R$)</label>
+          <input id="itTotal" type="number" min="0" placeholder="Ex.: 200" />
+        </div>
+        <div>
+          <label>Já arrecadado (R$)</label>
+          <input id="itArrecadado" type="number" min="0" value="0" />
+        </div>
+      </div>
+      <label>Link da loja (opcional)</label>
+      <input id="itLink" type="text" placeholder="https://..." />
+      <button class="btn-add" id="btnSalvarItem">+ Adicionar item</button>
+    </div>
+
+    <!-- LISTA ATUAL -->
+    <h2>Itens atuais (<span id="contador">0</span>)</h2>
+    <div id="listaItens"></div>
+
+    <!-- SALVAR -->
+    <h2>Salvar</h2>
+    <button class="btn-salvar" id="btnSalvarNuvem">💾 Salvar tudo na nuvem</button>
+    <p class="status" id="statusSalvar"></p>
+  </div>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="firebase-init.js"></script>
+  <!-- dados.js: usado só como ponto de partida na 1ª vez -->
   <script src="dados.js"></script>
   <script>
-    // Cópia de trabalho dos dados (não mexe no original até publicar)
-    let lista = PRESENTES.map(p => ({...p, link: p.link || ""}));
-    let editandoIndex = null; // null = adicionando; número = editando aquele item
-
-    // Preenche os campos de informações
-    document.getElementById("cfgNome").value  = CONFIG.nome;
-    document.getElementById("cfgWhats").value = CONFIG.whatsapp;
-    document.getElementById("cfgPix").value   = CONFIG.chavePix;
+    let lista = [];
+    let editandoIndex = null;
+    const selCat = document.getElementById("itCategoria");
 
     // Preenche o dropdown de categorias (sem "Todos", que é só filtro)
-    const selCat = document.getElementById("itCategoria");
     CATEGORIAS.filter(c => c !== "Todos").forEach(c => {
       const o = document.createElement("option");
       o.value = c; o.textContent = c; selCat.appendChild(o);
@@ -140,7 +138,62 @@
       return Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
     }
 
-    // Desenha a lista de itens atuais
+    // ---------- LOGIN ----------
+    const auth = firebase.auth();
+
+    document.getElementById("btnEntrar").addEventListener("click", entrar);
+    document.getElementById("loginSenha").addEventListener("keydown", e => {
+      if (e.key === "Enter") entrar();
+    });
+
+    function entrar(){
+      const email = document.getElementById("loginEmail").value.trim();
+      const senha = document.getElementById("loginSenha").value;
+      document.getElementById("loginErro").textContent = "";
+      auth.signInWithEmailAndPassword(email, senha).catch(err => {
+        document.getElementById("loginErro").textContent =
+          "Não consegui entrar. Confira o e-mail e a senha.";
+        console.warn(err);
+      });
+    }
+
+    document.getElementById("btnSair").addEventListener("click", () => auth.signOut());
+
+    // Mostra painel ou login conforme o estado de autenticação
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("painel").style.display = "block";
+        await carregarDados();
+      } else {
+        document.getElementById("login").style.display = "block";
+        document.getElementById("painel").style.display = "none";
+      }
+    });
+
+    // ---------- CARREGAR DADOS (nuvem ou dados.js) ----------
+    async function carregarDados(){
+      let nome = CONFIG.nome, whats = CONFIG.whatsapp, pix = CONFIG.chavePix;
+      lista = PRESENTES.map(p => ({...p, link: p.link || ""}));
+      try {
+        const doc = await DOC_DADOS.get();
+        if (doc.exists) {
+          const d = doc.data();
+          nome  = d.nome ?? nome;
+          whats = d.whatsapp ?? whats;
+          pix   = d.chavePix ?? pix;
+          if (Array.isArray(d.presentes) && d.presentes.length > 0) {
+            lista = d.presentes.map(p => ({...p, link: p.link || ""}));
+          }
+        }
+      } catch(e){ console.warn("Falha ao ler da nuvem, usando dados locais.", e); }
+      document.getElementById("cfgNome").value  = nome;
+      document.getElementById("cfgWhats").value = whats;
+      document.getElementById("cfgPix").value   = pix;
+      renderLista();
+    }
+
+    // ---------- LISTA ----------
     function renderLista(){
       const div = document.getElementById("listaItens");
       document.getElementById("contador").textContent = lista.length;
@@ -161,7 +214,6 @@
       });
     }
 
-    // Limpa o formulário e volta para o modo "adicionar"
     function limparForm(){
       editandoIndex = null;
       document.getElementById("formTitulo").textContent = "Adicionar item";
@@ -174,7 +226,6 @@
       renderLista();
     }
 
-    // Adicionar ou salvar edição
     document.getElementById("btnSalvarItem").addEventListener("click", () => {
       const nome = document.getElementById("itNome").value.trim();
       const total = parseFloat(document.getElementById("itTotal").value);
@@ -191,11 +242,9 @@
       if(editandoIndex === null){ lista.push(item); }
       else { lista[editandoIndex] = item; }
       limparForm();
-      // rola até a lista
       document.getElementById("listaItens").scrollIntoView({behavior:"smooth"});
     });
 
-    // Carrega um item no formulário para editar
     window.editarItem = function(i){
       const p = lista[i];
       editandoIndex = i;
@@ -218,58 +267,31 @@
       }
     };
 
-    // Gera o conteúdo completo do arquivo dados.js
-    function gerarCodigo(){
-      const nome  = JSON.stringify(document.getElementById("cfgNome").value.trim());
-      const whats = JSON.stringify(document.getElementById("cfgWhats").value.replace(/\D/g,""));
-      const pix   = JSON.stringify(document.getElementById("cfgPix").value.trim());
-
-      const linhas = lista.map(p =>
-        `  { nome: ${JSON.stringify(p.nome)}, categoria: ${JSON.stringify(p.categoria)}, ` +
-        `valorTotal: ${p.valorTotal}, valorArrecadado: ${p.valorArrecadado}, ` +
-        `link: ${JSON.stringify(p.link || "")} },`
-      ).join("\n");
-
-      return `/* ===================================================================
-   DADOS DO SITE — gerado pelo painel (admin.html).
-   Para editar de novo, use o painel e cole o novo resultado aqui.
-   =================================================================== */
-
-const CONFIG = {
-  nome: ${nome},
-  whatsapp: ${whats},
-  chavePix: ${pix},
-};
-
-const PRESENTES = [
-${linhas}
-];
-
-const CATEGORIAS = ["Todos", "Cozinha", "Lavanderia", "Quarto", "Sala", "Banheiro", "Outros"];
-const COTAS = [20, 30, 50, 100];
-`;
-    }
-
-    document.getElementById("btnGerar").addEventListener("click", () => {
-      document.getElementById("saida").value = gerarCodigo();
-      document.getElementById("areaGerada").style.display = "block";
-      document.getElementById("areaGerada").scrollIntoView({behavior:"smooth"});
-    });
-
-    document.getElementById("btnCopiar").addEventListener("click", async () => {
-      const txt = document.getElementById("saida").value;
-      try { await navigator.clipboard.writeText(txt); }
-      catch(e){
-        const ta = document.getElementById("saida");
-        ta.select(); document.execCommand("copy");
+    // ---------- SALVAR NA NUVEM ----------
+    document.getElementById("btnSalvarNuvem").addEventListener("click", async () => {
+      const btn = document.getElementById("btnSalvarNuvem");
+      const status = document.getElementById("statusSalvar");
+      const dados = {
+        nome: document.getElementById("cfgNome").value.trim(),
+        whatsapp: document.getElementById("cfgWhats").value.replace(/\D/g,""),
+        chavePix: document.getElementById("cfgPix").value.trim(),
+        presentes: lista,
+      };
+      btn.disabled = true;
+      status.textContent = "Salvando...";
+      try {
+        await DOC_DADOS.set(dados);
+        btn.textContent = "✓ Salvo na nuvem!";
+        btn.classList.add("ok");
+        status.textContent = "Pronto! O site já está atualizado. 🎉";
+        setTimeout(()=>{ btn.textContent="💾 Salvar tudo na nuvem"; btn.classList.remove("ok"); }, 2500);
+      } catch(e){
+        status.textContent = "Erro ao salvar. Você está logado? Tente sair e entrar de novo.";
+        console.warn(e);
+      } finally {
+        btn.disabled = false;
       }
-      const b = document.getElementById("btnCopiar");
-      b.textContent = "✓ Copiado!"; b.classList.add("ok");
-      setTimeout(()=>{ b.textContent="📋 Copiar tudo"; b.classList.remove("ok"); }, 2000);
     });
-
-    // Início
-    renderLista();
   </script>
 </body>
 </html>

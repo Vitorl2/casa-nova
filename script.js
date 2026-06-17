@@ -209,8 +209,33 @@ function configurarPix() {
   });
 }
 
+// ------------------- LER DADOS DA NUVEM (Firebase) -------------------
+// Busca os dados mais recentes salvos pelo painel. Se a nuvem estiver
+// indisponível (ou ainda sem nada salvo), usa os dados do dados.js.
+async function carregarDaNuvem() {
+  try {
+    const doc = await DOC_DADOS.get();
+    if (doc.exists) {
+      const d = doc.data();
+      if (d.nome || d.whatsapp || d.chavePix) {
+        CONFIG = {
+          nome: d.nome || CONFIG.nome,
+          whatsapp: d.whatsapp || CONFIG.whatsapp,
+          chavePix: d.chavePix || CONFIG.chavePix,
+        };
+      }
+      if (Array.isArray(d.presentes) && d.presentes.length > 0) {
+        PRESENTES = d.presentes;
+      }
+    }
+  } catch (e) {
+    console.warn("Não consegui ler da nuvem; usando dados locais.", e);
+  }
+}
+
 // ------------------- INICIALIZAÇÃO -------------------
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await carregarDaNuvem();
   renderizarResumo();
   renderizarFiltros();
   renderizarPresentes();

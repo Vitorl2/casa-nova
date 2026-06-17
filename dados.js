@@ -6,8 +6,12 @@
    Mas você também pode editar na mão aqui se quiser.
    =================================================================== */
 
+// OBS: estes dados são apenas o PONTO DE PARTIDA. Quando você salva pelo
+// painel (admin.html), os dados passam a vir da NUVEM (Firebase) e estes
+// aqui viram só um "plano B" caso a nuvem esteja indisponível.
+
 // ------------------- SUAS INFORMAÇÕES -------------------
-const CONFIG = {
+let CONFIG = {
   nome: "Vitor",                              // seu nome (mensagem do WhatsApp)
   whatsapp: "5585985896163",                  // DDI(55) + DDD + número, só dígitos
   chavePix: "vitorsiqueira834@gmail.com",     // sua chave Pix
@@ -17,7 +21,7 @@ const CONFIG = {
 // Cada item: { nome, categoria, valorTotal, valorArrecadado, link }
 // categoria deve ser uma destas: Cozinha, Lavanderia, Quarto, Sala, Banheiro, Outros
 // link é opcional (deixe "" se não tiver)
-const PRESENTES = [
+let PRESENTES = [
   { nome: "Air Fryer",        categoria: "Cozinha",    valorTotal: 300, valorArrecadado: 0, link: "" },
   { nome: "Micro-ondas",      categoria: "Cozinha",    valorTotal: 500, valorArrecadado: 0, link: "" },
   { nome: "Liquidificador",   categoria: "Cozinha",    valorTotal: 150, valorArrecadado: 0, link: "" },
