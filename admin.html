@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel — Casa Nova</title>
+  <style>
+    :root{
+      --verde:#2f9e7f; --verde-escuro:#247a62; --borda:#ece4da;
+      --fundo:#fdf8f3; --texto:#3d3a36; --suave:#8a8276;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--fundo);
+      color:var(--texto);line-height:1.5;padding:18px;max-width:760px;margin:0 auto;}
+    h1{color:var(--verde-escuro);font-size:24px;margin-bottom:4px;}
+    h2{color:var(--verde-escuro);font-size:18px;margin:24px 0 10px;}
+    p.intro{color:var(--suave);font-size:14px;margin-bottom:8px;}
+    .card{background:#fff;border:1px solid var(--borda);border-radius:14px;
+      padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(60,50,40,.06);}
+    label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px;}
+    input,select{width:100%;padding:10px;border:1px solid var(--borda);
+      border-radius:8px;font-size:15px;background:#fff;}
+    .linha{display:flex;gap:10px;flex-wrap:wrap;}
+    .linha>div{flex:1;min-width:120px;}
+    button{cursor:pointer;border:none;border-radius:8px;font-size:15px;
+      font-weight:600;padding:11px 16px;transition:.15s;}
+    .btn-add{background:var(--verde);color:#fff;width:100%;margin-top:14px;}
+    .btn-add:hover{background:var(--verde-escuro);}
+    .item{display:flex;justify-content:space-between;align-items:center;gap:10px;
+      padding:10px 12px;border:1px solid var(--borda);border-radius:10px;margin-bottom:8px;}
+    .item .info{font-size:14px;}
+    .item .info small{color:var(--suave);}
+    .item .acoes{display:flex;gap:6px;flex-shrink:0;}
+    .btn-mini{padding:6px 10px;font-size:13px;}
+    .btn-editar{background:#fdf0db;color:#b9822f;}
+    .btn-remover{background:#fde3e0;color:#c0463b;}
+    .btn-gerar{background:var(--verde-escuro);color:#fff;width:100%;}
+    .btn-copiar{background:var(--verde);color:#fff;width:100%;margin-top:10px;}
+    .btn-copiar.ok{background:#e8a04a;}
+    textarea{width:100%;min-height:200px;font-family:monospace;font-size:12px;
+      padding:12px;border:1px solid var(--borda);border-radius:8px;margin-top:10px;}
+    .passos{background:#eef7f3;border:1px solid #cfe9df;border-radius:10px;
+      padding:14px 18px;font-size:14px;}
+    .passos a{color:var(--verde-escuro);font-weight:600;}
+    .passos li{margin:4px 0;}
+    .aviso{background:#fff7e6;border:1px solid #f0d9a8;border-radius:10px;
+      padding:12px 16px;font-size:13px;color:#8a6d2f;margin-bottom:16px;}
+    .editando{outline:2px solid var(--verde);outline-offset:2px;}
+  </style>
+</head>
+<body>
+
+  <h1>🛠️ Painel da Casa Nova</h1>
+  <p class="intro">Adicione, edite ou remova itens sem mexer em código. No final, copie e cole o resultado pra publicar.</p>
+
+  <div class="aviso">
+    ⚠️ Esta página é só pra você. As mudanças que você faz aqui ficam só na tela —
+    para aparecerem no site de verdade, siga os passos do final (copiar e colar).
+  </div>
+
+  <!-- SUAS INFORMAÇÕES -->
+  <div class="card">
+    <h2 style="margin-top:0">Suas informações</h2>
+    <label>Seu nome (aparece na mensagem do WhatsApp)</label>
+    <input id="cfgNome" type="text" />
+    <label>WhatsApp (só números: 55 + DDD + número)</label>
+    <input id="cfgWhats" type="text" inputmode="numeric" />
+    <label>Chave Pix</label>
+    <input id="cfgPix" type="text" />
+  </div>
+
+  <!-- ADICIONAR / EDITAR ITEM -->
+  <div class="card" id="formCard">
+    <h2 style="margin-top:0" id="formTitulo">Adicionar item</h2>
+    <label>Nome do item</label>
+    <input id="itNome" type="text" placeholder="Ex.: Cafeteira" />
+    <div class="linha">
+      <div>
+        <label>Categoria</label>
+        <select id="itCategoria"></select>
+      </div>
+      <div>
+        <label>Valor total (R$)</label>
+        <input id="itTotal" type="number" min="0" placeholder="Ex.: 200" />
+      </div>
+      <div>
+        <label>Já arrecadado (R$)</label>
+        <input id="itArrecadado" type="number" min="0" value="0" />
+      </div>
+    </div>
+    <label>Link da loja (opcional)</label>
+    <input id="itLink" type="text" placeholder="https://..." />
+    <button class="btn-add" id="btnSalvarItem">+ Adicionar item</button>
+  </div>
+
+  <!-- LISTA ATUAL -->
+  <h2>Itens atuais (<span id="contador">0</span>)</h2>
+  <div id="listaItens"></div>
+
+  <!-- GERAR CÓDIGO -->
+  <h2>Publicar mudanças</h2>
+  <button class="btn-gerar" id="btnGerar">Gerar código para publicar</button>
+  <div id="areaGerada" style="display:none">
+    <button class="btn-copiar" id="btnCopiar">📋 Copiar tudo</button>
+    <textarea id="saida" readonly></textarea>
+    <div class="passos">
+      <strong>Como publicar (1 minuto):</strong>
+      <ol>
+        <li>Clique em <strong>📋 Copiar tudo</strong> acima.</li>
+        <li>Abra:
+          <a href="https://github.com/Vitorl2/casa-nova/edit/main/dados.js" target="_blank">
+            editar dados.js no GitHub</a>.</li>
+        <li>Apague tudo que estiver lá (Ctrl+A e Delete) e <strong>cole</strong> (Ctrl+V).</li>
+        <li>Clique no botão verde <strong>Commit changes</strong>.</li>
+        <li>Pronto! Em ~1 minuto o site atualiza. 🎉</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Carrega os dados atuais -->
+  <script src="dados.js"></script>
+  <script>
+    // Cópia de trabalho dos dados (não mexe no original até publicar)
+    let lista = PRESENTES.map(p => ({...p, link: p.link || ""}));
+    let editandoIndex = null; // null = adicionando; número = editando aquele item
+
+    // Preenche os campos de informações
+    document.getElementById("cfgNome").value  = CONFIG.nome;
+    document.getElementById("cfgWhats").value = CONFIG.whatsapp;
+    document.getElementById("cfgPix").value   = CONFIG.chavePix;
+
+    // Preenche o dropdown de categorias (sem "Todos", que é só filtro)
+    const selCat = document.getElementById("itCategoria");
+    CATEGORIAS.filter(c => c !== "Todos").forEach(c => {
+      const o = document.createElement("option");
+      o.value = c; o.textContent = c; selCat.appendChild(o);
+    });
+
+    function formatarReal(v){
+      return Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+    }
+
+    // Desenha a lista de itens atuais
+    function renderLista(){
+      const div = document.getElementById("listaItens");
+      document.getElementById("contador").textContent = lista.length;
+      div.innerHTML = "";
+      lista.forEach((p, i) => {
+        const el = document.createElement("div");
+        el.className = "item" + (editandoIndex === i ? " editando" : "");
+        el.innerHTML = `
+          <div class="info">
+            <strong>${p.nome}</strong> — ${formatarReal(p.valorTotal)}<br>
+            <small>${p.categoria}${p.valorArrecadado>0?` · arrecadado ${formatarReal(p.valorArrecadado)}`:""}${p.link?" · 🔗 com link":""}</small>
+          </div>
+          <div class="acoes">
+            <button class="btn-mini btn-editar" onclick="editarItem(${i})">Editar</button>
+            <button class="btn-mini btn-remover" onclick="removerItem(${i})">Remover</button>
+          </div>`;
+        div.appendChild(el);
+      });
+    }
+
+    // Limpa o formulário e volta para o modo "adicionar"
+    function limparForm(){
+      editandoIndex = null;
+      document.getElementById("formTitulo").textContent = "Adicionar item";
+      document.getElementById("btnSalvarItem").textContent = "+ Adicionar item";
+      document.getElementById("itNome").value = "";
+      document.getElementById("itTotal").value = "";
+      document.getElementById("itArrecadado").value = "0";
+      document.getElementById("itLink").value = "";
+      selCat.selectedIndex = 0;
+      renderLista();
+    }
+
+    // Adicionar ou salvar edição
+    document.getElementById("btnSalvarItem").addEventListener("click", () => {
+      const nome = document.getElementById("itNome").value.trim();
+      const total = parseFloat(document.getElementById("itTotal").value);
+      const arrec = parseFloat(document.getElementById("itArrecadado").value) || 0;
+      if(!nome){ alert("Digite o nome do item."); return; }
+      if(!total || total <= 0){ alert("Digite um valor total válido."); return; }
+      const item = {
+        nome,
+        categoria: selCat.value,
+        valorTotal: total,
+        valorArrecadado: Math.min(arrec, total),
+        link: document.getElementById("itLink").value.trim(),
+      };
+      if(editandoIndex === null){ lista.push(item); }
+      else { lista[editandoIndex] = item; }
+      limparForm();
+      // rola até a lista
+      document.getElementById("listaItens").scrollIntoView({behavior:"smooth"});
+    });
+
+    // Carrega um item no formulário para editar
+    window.editarItem = function(i){
+      const p = lista[i];
+      editandoIndex = i;
+      document.getElementById("formTitulo").textContent = "Editando: " + p.nome;
+      document.getElementById("btnSalvarItem").textContent = "Salvar alteração";
+      document.getElementById("itNome").value = p.nome;
+      selCat.value = p.categoria;
+      document.getElementById("itTotal").value = p.valorTotal;
+      document.getElementById("itArrecadado").value = p.valorArrecadado;
+      document.getElementById("itLink").value = p.link || "";
+      renderLista();
+      document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
+    };
+
+    window.removerItem = function(i){
+      if(confirm(`Remover "${lista[i].nome}"?`)){
+        lista.splice(i,1);
+        if(editandoIndex === i) limparForm();
+        else renderLista();
+      }
+    };
+
+    // Gera o conteúdo completo do arquivo dados.js
+    function gerarCodigo(){
+      const nome  = JSON.stringify(document.getElementById("cfgNome").value.trim());
+      const whats = JSON.stringify(document.getElementById("cfgWhats").value.replace(/\D/g,""));
+      const pix   = JSON.stringify(document.getElementById("cfgPix").value.trim());
+
+      const linhas = lista.map(p =>
+        `  { nome: ${JSON.stringify(p.nome)}, categoria: ${JSON.stringify(p.categoria)}, ` +
+        `valorTotal: ${p.valorTotal}, valorArrecadado: ${p.valorArrecadado}, ` +
+        `link: ${JSON.stringify(p.link || "")} },`
+      ).join("\n");
+
+      return `/* ===================================================================
+   DADOS DO SITE — gerado pelo painel (admin.html).
+   Para editar de novo, use o painel e cole o novo resultado aqui.
+   =================================================================== */
+
+const CONFIG = {
+  nome: ${nome},
+  whatsapp: ${whats},
+  chavePix: ${pix},
+};
+
+const PRESENTES = [
+${linhas}
+];
+
+const CATEGORIAS = ["Todos", "Cozinha", "Lavanderia", "Quarto", "Sala", "Banheiro", "Outros"];
+const COTAS = [20, 30, 50, 100];
+`;
+    }
+
+    document.getElementById("btnGerar").addEventListener("click", () => {
+      document.getElementById("saida").value = gerarCodigo();
+      document.getElementById("areaGerada").style.display = "block";
+      document.getElementById("areaGerada").scrollIntoView({behavior:"smooth"});
+    });
+
+    document.getElementById("btnCopiar").addEventListener("click", async () => {
+      const txt = document.getElementById("saida").value;
+      try { await navigator.clipboard.writeText(txt); }
+      catch(e){
+        const ta = document.getElementById("saida");
+        ta.select(); document.execCommand("copy");
+      }
+      const b = document.getElementById("btnCopiar");
+      b.textContent = "✓ Copiado!"; b.classList.add("ok");
+      setTimeout(()=>{ b.textContent="📋 Copiar tudo"; b.classList.remove("ok"); }, 2000);
+    });
+
+    // Início
+    renderLista();
+  </script>
+</body>
+</html>

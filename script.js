@@ -1,53 +1,11 @@
 /* ===================================================================
    CHÁ DE CASA NOVA - LÓGICA (JavaScript puro, sem backend)
    ===================================================================
-   COMO PERSONALIZAR (mexa só nesta seção CONFIG e na lista PRESENTES):
-   1. CONFIG.nome        -> seu nome (aparece na mensagem do WhatsApp)
-   2. CONFIG.whatsapp    -> seu número com DDI + DDD, só números
-   3. CONFIG.chavePix    -> sua chave Pix
-   4. PRESENTES          -> lista de presentes (nome, categoria, valores)
-   5. valorArrecadado    -> quanto já foi arrecadado em cada item
+   Os DADOS (nome, WhatsApp, Pix e lista de presentes) ficam no arquivo
+   "dados.js", que é carregado ANTES deste no index.html.
+   Para adicionar/editar itens, use o painel "admin.html" ou edite o
+   arquivo "dados.js". Aqui embaixo fica só a lógica do site.
    =================================================================== */
-
-// ------------------- CONFIGURAÇÃO (TROQUE AQUI) -------------------
-const CONFIG = {
-  // (1) TROQUE: seu nome, usado na mensagem pronta do WhatsApp
-  nome: "Vitor",
-
-  // (2) TROQUE: número do WhatsApp -> DDI(55) + DDD + número, só dígitos
-  //     Exemplo: 55 11 99999-9999  ->  "5511999999999"
-  whatsapp: "5585985896163",
-
-  // (3) TROQUE: sua chave Pix (e-mail, telefone, CPF ou chave aleatória)
-  chavePix: "vitorsiqueira834@gmail.com",
-};
-
-// ------------------- LISTA DE PRESENTES (TROQUE AQUI) -------------------
-// (4 e 5) Edite livremente: adicione/remova itens e ajuste os valores.
-//   nome           -> nome do item
-//   categoria      -> uma de: Cozinha, Lavanderia, Quarto, Sala, Banheiro, Outros
-//   valorTotal     -> valor estimado total do item (R$). MUDE AQUI o preço!
-//   valorArrecadado-> quanto já foi arrecadado até agora (R$)
-//   link           -> (OPCIONAL) link da loja/produto. Cole o endereço entre
-//                     as aspas. Deixe "" (vazio) se não quiser mostrar link.
-const PRESENTES = [
-  { nome: "Air Fryer",        categoria: "Cozinha",    valorTotal: 300, valorArrecadado: 0, link: "https://www.exemplo.com.br/air-fryer" },
-  { nome: "Micro-ondas",      categoria: "Cozinha",    valorTotal: 500, valorArrecadado: 0, link: "" },
-  { nome: "Liquidificador",   categoria: "Cozinha",    valorTotal: 150, valorArrecadado: 0, link: "" },
-  { nome: "Jogo de Panelas",  categoria: "Cozinha",    valorTotal: 250, valorArrecadado: 0, link: "" },
-  { nome: "Sanduicheira",     categoria: "Cozinha",    valorTotal: 120, valorArrecadado: 0, link: "" },
-  { nome: "Ferro de Passar",  categoria: "Lavanderia", valorTotal: 120, valorArrecadado: 0, link: "" },
-  { nome: "Varal de Chão",    categoria: "Lavanderia", valorTotal: 90,  valorArrecadado: 0, link: "" },
-  { nome: "Jogo de Cama",     categoria: "Quarto",     valorTotal: 150, valorArrecadado: 0, link: "" },
-  { nome: "Travesseiros",     categoria: "Quarto",     valorTotal: 100, valorArrecadado: 0, link: "" },
-  { nome: "Kit Toalhas",      categoria: "Banheiro",   valorTotal: 120, valorArrecadado: 0, link: "" },
-];
-
-// Categorias usadas nos filtros (a ordem aqui é a ordem dos botões)
-const CATEGORIAS = ["Todos", "Cozinha", "Lavanderia", "Quarto", "Sala", "Banheiro", "Outros"];
-
-// Valores fixos dos botões de cota (R$)
-const COTAS = [20, 30, 50, 100];
 
 // ===================================================================
 //  DAQUI PARA BAIXO: lógica do site. Em geral não precisa mexer.
