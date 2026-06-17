@@ -214,6 +214,25 @@ body {
   font-weight: 600;
 }
 
+/* Link do produto (loja) */
+.link-produto {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cor-primaria-escura);
+  text-decoration: none;
+  background: #eef7f3;
+  border: 1px solid #cfe9df;
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: background 0.18s ease;
+}
+
+.link-produto:hover {
+  background: #d8f0e6;
+}
+
 /* Barra de progresso */
 .barra {
   background: #eee5da;

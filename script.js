@@ -26,19 +26,21 @@ const CONFIG = {
 // (4 e 5) Edite livremente: adicione/remova itens e ajuste os valores.
 //   nome           -> nome do item
 //   categoria      -> uma de: Cozinha, Lavanderia, Quarto, Sala, Banheiro, Outros
-//   valorTotal     -> valor estimado total do item (R$)
+//   valorTotal     -> valor estimado total do item (R$). MUDE AQUI o preço!
 //   valorArrecadado-> quanto já foi arrecadado até agora (R$)
+//   link           -> (OPCIONAL) link da loja/produto. Cole o endereço entre
+//                     as aspas. Deixe "" (vazio) se não quiser mostrar link.
 const PRESENTES = [
-  { nome: "Air Fryer",        categoria: "Cozinha",    valorTotal: 300, valorArrecadado: 0 },
-  { nome: "Micro-ondas",      categoria: "Cozinha",    valorTotal: 500, valorArrecadado: 0 },
-  { nome: "Liquidificador",   categoria: "Cozinha",    valorTotal: 150, valorArrecadado: 0 },
-  { nome: "Jogo de Panelas",  categoria: "Cozinha",    valorTotal: 250, valorArrecadado: 0 },
-  { nome: "Sanduicheira",     categoria: "Cozinha",    valorTotal: 120, valorArrecadado: 0 },
-  { nome: "Ferro de Passar",  categoria: "Lavanderia", valorTotal: 120, valorArrecadado: 0 },
-  { nome: "Varal de Chão",    categoria: "Lavanderia", valorTotal: 90,  valorArrecadado: 0 },
-  { nome: "Jogo de Cama",     categoria: "Quarto",     valorTotal: 150, valorArrecadado: 0 },
-  { nome: "Travesseiros",     categoria: "Quarto",     valorTotal: 100, valorArrecadado: 0 },
-  { nome: "Kit Toalhas",      categoria: "Banheiro",   valorTotal: 120, valorArrecadado: 0 },
+  { nome: "Air Fryer",        categoria: "Cozinha",    valorTotal: 300, valorArrecadado: 0, link: "https://www.exemplo.com.br/air-fryer" },
+  { nome: "Micro-ondas",      categoria: "Cozinha",    valorTotal: 500, valorArrecadado: 0, link: "" },
+  { nome: "Liquidificador",   categoria: "Cozinha",    valorTotal: 150, valorArrecadado: 0, link: "" },
+  { nome: "Jogo de Panelas",  categoria: "Cozinha",    valorTotal: 250, valorArrecadado: 0, link: "" },
+  { nome: "Sanduicheira",     categoria: "Cozinha",    valorTotal: 120, valorArrecadado: 0, link: "" },
+  { nome: "Ferro de Passar",  categoria: "Lavanderia", valorTotal: 120, valorArrecadado: 0, link: "" },
+  { nome: "Varal de Chão",    categoria: "Lavanderia", valorTotal: 90,  valorArrecadado: 0, link: "" },
+  { nome: "Jogo de Cama",     categoria: "Quarto",     valorTotal: 150, valorArrecadado: 0, link: "" },
+  { nome: "Travesseiros",     categoria: "Quarto",     valorTotal: 100, valorArrecadado: 0, link: "" },
+  { nome: "Kit Toalhas",      categoria: "Banheiro",   valorTotal: 120, valorArrecadado: 0, link: "" },
 ];
 
 // Categorias usadas nos filtros (a ordem aqui é a ordem dos botões)
@@ -164,6 +166,12 @@ function renderizarPresentes() {
         <span class="arrecadado">Arrecadado: ${formatarReal(info.arrecadado)}</span>
         <span class="restante">Falta: ${formatarReal(info.restante)}</span>
       </div>
+
+      ${presente.link ? `
+        <a class="link-produto" href="${presente.link}" target="_blank" rel="noopener">
+          🔗 Ver produto
+        </a>
+      ` : ``}
 
       <div class="barra">
         <div class="barra-preenchida" style="width:${info.porcentagem}%"></div>
