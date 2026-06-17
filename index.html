@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chá de Casa Nova</title>
+  <meta name="description" content="Ajude a montar nosso cantinho contribuindo com uma cota em qualquer item." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===================== CABEÇALHO ===================== -->
+  <header class="cabecalho">
+    <div class="container">
+      <div class="icone-casa">🏡</div>
+      <h1>Chá de Casa Nova</h1>
+      <p class="subtitulo">
+        Estamos montando nosso cantinho. Você pode ajudar com qualquer valor
+        em um dos itens abaixo.
+      </p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ===================== RESUMO GERAL ===================== -->
+    <section class="resumo" id="resumo" aria-live="polite">
+      <!-- Preenchido pelo JavaScript -->
+    </section>
+
+    <!-- ===================== FILTROS ===================== -->
+    <nav class="filtros" id="filtros" aria-label="Filtrar por categoria">
+      <!-- Botões de filtro gerados pelo JavaScript -->
+    </nav>
+
+    <!-- ===================== LISTA DE PRESENTES ===================== -->
+    <section class="grade-presentes" id="listaPresentes">
+      <!-- Cards gerados pelo JavaScript -->
+    </section>
+
+    <!-- ===================== SEÇÃO PIX ===================== -->
+    <section class="pix" id="pix">
+      <h2>Como contribuir</h2>
+      <p>
+        Depois de escolher o item e o valor, você pode enviar pelo Pix abaixo.
+      </p>
+
+      <div class="pix-box">
+        <span class="pix-label">Chave Pix</span>
+        <!-- A chave Pix exibida aqui é preenchida pelo JavaScript (CONFIG.chavePix) -->
+        <code id="chavePix" class="pix-chave"></code>
+        <button id="btnCopiarPix" class="btn-copiar" type="button">
+          Copiar chave Pix
+        </button>
+      </div>
+      <p class="pix-aviso">
+        Após o Pix, é só mandar o comprovante no WhatsApp. Obrigado pelo carinho! 💛
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="rodape">
+    <div class="container">
+      <p>Feito com 💛 para o nosso novo lar.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

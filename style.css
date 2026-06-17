@@ -1,0 +1,369 @@
+/* ===================================================================
+   CHÁ DE CASA NOVA - ESTILOS
+   Tema acolhedor, fundo claro, foco em celular (mobile-first).
+   =================================================================== */
+
+/* ---------- Variáveis de cor / tema ---------- */
+:root {
+  --cor-fundo: #fdf8f3;          /* fundo claro e quente */
+  --cor-card: #ffffff;
+  --cor-texto: #3d3a36;
+  --cor-texto-suave: #8a8276;
+  --cor-primaria: #2f9e7f;       /* verde acolhedor */
+  --cor-primaria-escura: #247a62;
+  --cor-destaque: #e8a04a;       /* dourado/terracota */
+  --cor-borda: #ece4da;
+  --cor-completo: #2f9e7f;
+  --cor-parcial: #e8a04a;
+  --cor-aberto: #b5ada1;
+  --raio: 16px;
+  --sombra: 0 6px 20px rgba(60, 50, 40, 0.08);
+  --sombra-leve: 0 2px 8px rgba(60, 50, 40, 0.06);
+}
+
+/* ---------- Reset básico ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+/* ---------- Cabeçalho ---------- */
+.cabecalho {
+  text-align: center;
+  padding: 48px 0 36px;
+  background: linear-gradient(180deg, #fef6ec 0%, var(--cor-fundo) 100%);
+}
+
+.icone-casa {
+  font-size: 52px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.cabecalho h1 {
+  font-size: 30px;
+  color: var(--cor-primaria-escura);
+  margin-bottom: 12px;
+}
+
+.subtitulo {
+  color: var(--cor-texto-suave);
+  font-size: 16px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+/* ---------- Resumo geral ---------- */
+.resumo {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-leve);
+  padding: 18px 20px;
+  margin: 8px 0 22px;
+  text-align: center;
+}
+
+.resumo strong {
+  color: var(--cor-primaria-escura);
+}
+
+.resumo .barra {
+  margin-top: 12px;
+}
+
+/* ---------- Filtros ---------- */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 26px;
+}
+
+.filtros button {
+  border: 1px solid var(--cor-borda);
+  background: var(--cor-card);
+  color: var(--cor-texto-suave);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.filtros button:hover {
+  border-color: var(--cor-primaria);
+  color: var(--cor-primaria-escura);
+}
+
+.filtros button.ativo {
+  background: var(--cor-primaria);
+  border-color: var(--cor-primaria);
+  color: #fff;
+}
+
+/* ---------- Grade de presentes ---------- */
+.grade-presentes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Em telas maiores, duas colunas */
+@media (min-width: 620px) {
+  .grade-presentes {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ---------- Card de presente ---------- */
+.card {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card.completo {
+  background: #f4faf7;
+  border-color: #cfe9df;
+}
+
+.card-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.card-nome {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.card-categoria {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--cor-texto-suave);
+  background: #f3ede4;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+/* Selo de status */
+.selo {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.selo.aberto {
+  background: #f0ede8;
+  color: var(--cor-aberto);
+}
+
+.selo.parcial {
+  background: #fdf0db;
+  color: var(--cor-destaque);
+}
+
+.selo.completo {
+  background: #d8f0e6;
+  color: var(--cor-completo);
+}
+
+/* Valores */
+.valores {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--cor-texto-suave);
+}
+
+.valores .arrecadado {
+  color: var(--cor-primaria-escura);
+  font-weight: 600;
+}
+
+.valores .restante {
+  color: var(--cor-destaque);
+  font-weight: 600;
+}
+
+/* Barra de progresso */
+.barra {
+  background: #eee5da;
+  border-radius: 999px;
+  height: 10px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.barra-preenchida {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cor-primaria) 0%, #4bbd99 100%);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.card.completo .barra-preenchida {
+  background: var(--cor-completo);
+}
+
+.porcentagem {
+  font-size: 12px;
+  color: var(--cor-texto-suave);
+  text-align: right;
+}
+
+/* Botões de cota */
+.cotas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.cotas button {
+  flex: 1 1 auto;
+  min-width: 64px;
+  border: 1px solid var(--cor-primaria);
+  background: #fff;
+  color: var(--cor-primaria-escura);
+  padding: 10px 8px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.cotas button:hover {
+  background: var(--cor-primaria);
+  color: #fff;
+}
+
+.cotas button.outro {
+  border-style: dashed;
+}
+
+/* Estado desabilitado (item completo) */
+.cotas button:disabled {
+  border-color: var(--cor-borda);
+  color: var(--cor-texto-suave);
+  background: #f6f2ec;
+  cursor: not-allowed;
+}
+
+.mensagem-completo {
+  font-size: 14px;
+  color: var(--cor-completo);
+  font-weight: 600;
+  text-align: center;
+  background: #d8f0e6;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* ---------- Seção Pix ---------- */
+.pix {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+  padding: 26px 22px;
+  margin: 34px 0;
+  text-align: center;
+}
+
+.pix h2 {
+  color: var(--cor-primaria-escura);
+  margin-bottom: 8px;
+}
+
+.pix p {
+  color: var(--cor-texto-suave);
+  font-size: 15px;
+}
+
+.pix-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 14px;
+}
+
+.pix-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--cor-texto-suave);
+}
+
+.pix-chave {
+  background: #f3ede4;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  word-break: break-all;
+  width: 100%;
+  max-width: 420px;
+}
+
+.btn-copiar {
+  background: var(--cor-primaria);
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+
+.btn-copiar:hover {
+  background: var(--cor-primaria-escura);
+}
+
+.btn-copiar.copiado {
+  background: var(--cor-destaque);
+}
+
+.pix-aviso {
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+  text-align: center;
+  padding: 28px 0 40px;
+  color: var(--cor-texto-suave);
+  font-size: 14px;
+}
