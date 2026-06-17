@@ -34,7 +34,7 @@ function calcular(presente) {
 
 // Monta o link do WhatsApp com a mensagem pronta
 function linkWhatsApp(valor, nomePresente) {
-  const mensagem = `Oi, ${CONFIG.nome}! Quero ajudar com R$ ${valor} para o presente: ${nomePresente}.`;
+  const mensagem = `Oi, ${CONFIG.nome}! Quero ajudar com ${formatarReal(Number(valor))} para o presente: ${nomePresente}.`;
   return `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(mensagem)}`;
 }
 
@@ -246,13 +246,19 @@ function renderizarPresentes() {
     if (!info.completo) {
       const divCotas = card.querySelector(".cotas");
 
-      // Botões de valor fixo
-      COTAS.forEach((valor) => {
-        const btn = document.createElement("button");
-        btn.textContent = `R$ ${valor}`;
-        btn.addEventListener("click", () => abrirModalPix(valor, presente.nome));
-        divCotas.appendChild(btn);
-      });
+      // Botões "Metade" e "Completo", calculados sobre o que ainda FALTA
+      const completo = info.restante;                              // tudo que falta
+      const metade = Math.round((info.restante / 2) * 100) / 100;  // metade do que falta
+
+      const btnMetade = document.createElement("button");
+      btnMetade.innerHTML = `Metade<br><small>${formatarReal(metade)}</small>`;
+      btnMetade.addEventListener("click", () => abrirModalPix(metade, presente.nome));
+      divCotas.appendChild(btnMetade);
+
+      const btnCompleto = document.createElement("button");
+      btnCompleto.innerHTML = `Completo<br><small>${formatarReal(completo)}</small>`;
+      btnCompleto.addEventListener("click", () => abrirModalPix(completo, presente.nome));
+      divCotas.appendChild(btnCompleto);
 
       // Botão "Outro valor"
       const btnOutro = document.createElement("button");
